@@ -10,3 +10,7 @@ This App features:
 9. Adaptability feature on larger screen (On progress)
 10. Clean Architecture(On progress)
 11. MVVM(On Progress)
+
+![Screenshot_20240827_002225](https://github.com/user-attachments/assets/f64bbcfd-c2bd-4a90-b918-d6e7f7e74733)![Screenshot_20240827_002407](https://github.com/user-attachments/assets/127816a8-a962-4f6c-9f67-0f018ed26945)
+
+
