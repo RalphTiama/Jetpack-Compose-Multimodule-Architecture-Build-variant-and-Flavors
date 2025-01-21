@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -65,14 +66,15 @@ fun BottomBarContainer(navController: NavHostController) {
     var pxToMove by remember { mutableIntStateOf(0) }
     var isDoneAnimation by remember { mutableStateOf(true) }
     var selectedIndex by remember { mutableIntStateOf(0) }
-    var indicatorWidth by remember { mutableIntStateOf(240) }
+    var indicatorWidth by remember { mutableIntStateOf(0) }
     var indicatorHeight by remember { mutableIntStateOf(0) }
+
 
     val offset by animateIntOffsetAsState(
         targetValue = if (expanded) {
             IntOffset(pxToMove, 0)
         } else {
-            IntOffset(0, 0)
+            IntOffset(pxToMove, 0)
         },
         animationSpec = tween(300, easing = LinearOutSlowInEasing),
         finishedListener = {
@@ -138,10 +140,21 @@ fun BottomBarContainer(navController: NavHostController) {
                             .animateItem()
                             .fillMaxWidth()
                             .onGloballyPositioned {
+
                                 val positionRoot: Offset = it.positionInParent()
-                                moveTo = positionRoot.x.toInt()
+
                                 indexWidthValue = it.size.width
                                 indicatorHeight = it.parentCoordinates!!.size.height
+
+                                //init position and width size
+                                if(indicatorWidth == 0) {
+                                    indicatorWidth = it.size.width
+                                    pxToMove = positionRoot.x.toInt()
+                                }
+
+                                moveTo = positionRoot.x.toInt()
+
+
                             },
                         isDoneAnimation = isDoneAnimation,
                         click = {
@@ -160,6 +173,7 @@ fun BottomBarContainer(navController: NavHostController) {
                             }
                         }
                     )
+
                 }
             }
         }
